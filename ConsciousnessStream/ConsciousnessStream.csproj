@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetEmotivSDK">
-      <HintPath>..\..\..\Program Files (x86)\Emotiv Development Kit_v1.0.0.5-LITE\DotNetEmotivSDK.dll</HintPath>
+      <HintPath>..\lib\DotNetEmotivSDK.dll</HintPath>
     </Reference>
     <Reference Include="EventStore.ClientAPI">
       <HintPath>..\packages\EventStore.Client.1.0.1\lib\net40\EventStore.ClientAPI.dll</HintPath>
@@ -89,6 +89,10 @@
     <Content Include="Projections\EmotivSessions.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "$(SolutionDir)scripts\copyifnewer.bat" "$(SolutionDir)lib\edk.dll" "$(TargetDir)edk.dll"
+call "$(SolutionDir)scripts\copyifnewer.bat" "$(SolutionDir)lib\edk_utils.dll" "$(TargetDir)edk_utils.dll"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
