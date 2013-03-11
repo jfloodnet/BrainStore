@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace IEventSourcedMyBrain.Controllers
 {
@@ -20,7 +17,7 @@ namespace IEventSourcedMyBrain.Controllers
 
         public async Task<HttpResponseMessage> Relay(HttpRequestMessage message)
         {
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 return await client.GetAsync(RelayUri(message.RequestUri));
             }
@@ -28,7 +25,7 @@ namespace IEventSourcedMyBrain.Controllers
 
         private Uri RelayUri(Uri uri)
         {
-            UriBuilder ub = new UriBuilder(uri);
+            var ub = new UriBuilder(uri);
             ub.Host = host;
             ub.Port = port;
             ub.Query = "format=json";

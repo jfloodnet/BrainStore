@@ -1,23 +1,8 @@
-﻿using EventStore.ClientAPI;
-using IEventSourcedMyBrain;
-using IEventSourcedMyBrain.Controllers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Routing;
 
-namespace ConsciousnessStream.EventStore.Relay.Controllers
+namespace IEventSourcedMyBrain.Controllers
 {
     public class StreamRelayController : ApiController
     {

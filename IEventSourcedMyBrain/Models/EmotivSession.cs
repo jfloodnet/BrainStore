@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace IEventSourcedMyBrain.Models
+﻿namespace IEventSourcedMyBrain.Models
 {
     public class EmotivSession
     {

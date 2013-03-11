@@ -7,10 +7,10 @@
             UserActivity: '',
             SessionStarted: '',
             SessionEnded: ''
-        }
+        };
     },
     'EmoEngineConnected': function (s, e) {
-        var metadata = JSON.parse(e.metadataRaw);
+        var metadata = JSON.parse(e.metadataRaw);//todo get latest EventStore and use metadata property.
         s.StreamId = e.streamId;
         s.UserActivity = metadata.UserActivity;
         s.SessionStarted = metadata.TimeStamp;
