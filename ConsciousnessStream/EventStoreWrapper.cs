@@ -16,8 +16,7 @@ namespace ConsciousnessStream
     public class EventStoreWrapper : IEventStore
     {
         private const string EventClrTypeHeader = "EventClrTypeName";
-        private const int WritePageSize = 500;
-
+        
         private readonly EventStoreConnection eventStoreConnection;
         private readonly Func<Dictionary<string, object>> writeMetaData;
 
