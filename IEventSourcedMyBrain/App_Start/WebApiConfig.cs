@@ -28,10 +28,9 @@ namespace IEventSourcedMyBrain
             );
 
             config.Routes.MapHttpRoute(
-                name: "Default",
+                name: "DefaultApi",
                 routeTemplate: "{controller}/{id}/",
                 defaults: new { id = RouteParameter.Optional }
-
             ); 
         }
     }

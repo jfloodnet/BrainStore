@@ -138,6 +138,7 @@ namespace ConsciousnessStream
 
         void engine_ExpressivEmoStateUpdated(object sender, EmoStateUpdatedEventArgs e)
         {
+            
             var clenchExtent = e.emoState.ExpressivGetClenchExtent();
             var eyebrowExtent = e.emoState.ExpressivGetEyebrowExtent();
             float leftEyelid, rightEyelid;
