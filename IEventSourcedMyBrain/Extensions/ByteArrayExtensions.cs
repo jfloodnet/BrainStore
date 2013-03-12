@@ -3,7 +3,7 @@ using System.Text;
 
 namespace IEventSourcedMyBrain.Extensions
 {
-    public static class ByteArrayExtensions
+    public static class Extensions
     {
         public static string ReadAsString(this byte[] data)
         {
