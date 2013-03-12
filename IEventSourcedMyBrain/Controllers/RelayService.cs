@@ -6,30 +6,19 @@ namespace IEventSourcedMyBrain.Controllers
 {
     public class RelayService
     {
-        readonly string host;
-        readonly int port;
+        readonly Func<Uri, Uri> relayUri;
 
-        public RelayService(string host, int port)
+        public RelayService(Func<Uri, Uri> relayUri)
         {
-            this.host = host;
-            this.port = port;
+            this.relayUri = relayUri;
         }
 
         public async Task<HttpResponseMessage> Relay(HttpRequestMessage message)
         {
             using (var client = new HttpClient())
             {
-                return await client.GetAsync(RelayUri(message.RequestUri));
+                return await client.GetAsync(relayUri(message.RequestUri));
             }
-        }
-
-        private Uri RelayUri(Uri uri)
-        {
-            var ub = new UriBuilder(uri);
-            ub.Host = host;
-            ub.Port = port;
-            ub.Query = "format=json";
-            return ub.Uri;
         }
     }
 }
