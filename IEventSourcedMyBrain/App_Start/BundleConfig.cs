@@ -20,6 +20,7 @@ namespace IEventSourcedMyBrain.App_Start
                 "~/web/es/projections/es.api.js",
                 "~/web/es/projections/es.projections.environment.js",
                 "~/web/es/projections/es.projections.js",
+                "~/web/es/modules.js",
                 "~/web/es/projections.js",
                 "~/web/es/Prelude1.js",
                 "~/web/es/projections/emoProjection.js")
@@ -33,8 +34,8 @@ namespace IEventSourcedMyBrain.App_Start
             );
 
             bundles.Add(new ScriptBundle("~/Scripts/charts").Include(
-                  "~/web/es/lib/charts/d3.min.js",
-                  "~/web/es/lib/charts/d3.layout.min.js",
+                  "~/web/es/lib/charts/d3.js",
+                  "~/web/es/lib/charts/d3.layout.js",
                   "~/web/es/lib/charts/rickshaw.js",
                   "~/web/es/js/es.chartSetup.js")
             );
@@ -45,18 +46,21 @@ namespace IEventSourcedMyBrain.App_Start
 
             bundles.Add(new StyleBundle("~/Styles/charts").Include(
                 "~/web/es/lib/charts/d3.css",
-                "~/web/es/lib/charts/rickshaw.min.css",
+                "~/web/es/lib/charts/rickshaw.css",
                 "~/web/es/css/es.charts.css")
             );
 
             bundles.Add(new StyleBundle("~/Styles/layout").Include(
-                "~/web/es/css/es.sitelayout.css")
+                "~/web/es/css/es.sitelayout.css",
+                "~/web/es/lib/jquery/jquery-ui-1.8.23.custom.css")
             );
 
             bundles.Add(new StyleBundle("~/Styles/bootstrap").Include(
                 "~/web/es/lib/bootstrap/css/bootstrap.css",
                 "~/web/es/lib/bootstrap/css/bootstrap-responsive.css")
             );
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }
