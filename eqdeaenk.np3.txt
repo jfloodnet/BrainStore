@@ -1,0 +1,22 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch creating-view-layout
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   IEventSourcedMyBrain/Controllers/HomeController.cs
+#	new file:   IEventSourcedMyBrain/Views/Home/Index.cshtml
+#	new file:   IEventSourcedMyBrain/Views/Live/Index.cshtml
+#	new file:   IEventSourcedMyBrain/Views/Shared/_Layout.cshtml
+#	new file:   IEventSourcedMyBrain/Views/Web.config
+#	new file:   IEventSourcedMyBrain/Views/_ViewStart.cshtml
+#	new file:   packages/Microsoft.AspNet.Web.Optimization.1.0.0/Microsoft.AspNet.Web.Optimization.1.0.0.nupkg
+#	new file:   packages/Microsoft.AspNet.Web.Optimization.1.0.0/Microsoft.AspNet.Web.Optimization.1.0.0.nuspec
+#	new file:   packages/Microsoft.AspNet.Web.Optimization.1.0.0/lib/net40/System.Web.Optimization.dll
+#	new file:   packages/WebGrease.1.1.0/WebGrease.1.1.0.nupkg
+#	new file:   packages/WebGrease.1.1.0/WebGrease.1.1.0.nuspec
+#	new file:   packages/WebGrease.1.1.0/lib/Antlr3.Runtime.dll
+#	new file:   packages/WebGrease.1.1.0/lib/WebGrease.dll
+#
+
