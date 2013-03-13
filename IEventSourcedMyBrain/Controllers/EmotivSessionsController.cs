@@ -9,15 +9,16 @@ namespace IEventSourcedMyBrain.Controllers
 {
     public class EmotivSessionsController : ApiController
     {
+        private readonly EventStoreReader reader;
+
+        public EmotivSessionsController(EventStoreReader reader)
+        {
+            this.reader = reader;
+        }
+
         public IEnumerable<EmotivSession> Get()
         {
-            using (var connection = EventStoreConnection.Create())
-            {
-                connection.Connect(new IPEndPoint(IPAddress.Parse(Config.Host), 1113));
-
-                var reader = new EventStoreReader(connection);
-                return reader.ReadAll<EmotivSession>("EmoSessionSummaries").ToList();
-            }
+            return reader.ReadAll<EmotivSession>("EmoSessionSummaries");
         }
     }
 }

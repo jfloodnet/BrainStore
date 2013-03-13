@@ -11,18 +11,16 @@ namespace IEventSourcedMyBrain.Controllers
     {
         readonly string host;
         readonly int port;
-        readonly Uri requestUri;
         readonly HttpConfiguration cfg;
 
-        public LinkInterceptor(string host, int port, Uri requestUri, HttpConfiguration cfg)
+        public LinkInterceptor(string host, int port, HttpConfiguration cfg)
         {
             this.host = host;
             this.port = port;
-            this.requestUri = requestUri;
             this.cfg = cfg;
         }
 
-        public async Task<HttpResponseMessage> Intercept(HttpResponseMessage response)
+        public async Task<HttpResponseMessage> Intercept(HttpResponseMessage response, Uri requestUri)
         {
             string json = await response.Content.ReadAsStringAsync();
 

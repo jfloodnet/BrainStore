@@ -7,23 +7,19 @@ namespace IEventSourcedMyBrain.Controllers
 {
     public class StreamRelayController : ApiController
     {
-        public async Task<HttpResponseMessage> Get()
+        private readonly RelayService relayService;
+        private readonly LinkInterceptor linkInterceptor;
+
+        public StreamRelayController(RelayService relayService, LinkInterceptor linkInterceptor)
         {
-            var response = await (new RelayService(RelayUri).Relay(Request));
-            return await new LinkInterceptor(
-                Config.Host, 
-                Config.Port, 
-                Request.RequestUri,
-                GlobalConfiguration.Configuration).Intercept(response);
+            this.relayService = relayService;
+            this.linkInterceptor = linkInterceptor;
         }
 
-        private Uri RelayUri(Uri uri)
+        public async Task<HttpResponseMessage> Get()
         {
-            var ub = new UriBuilder(uri);
-            ub.Host = Config.Host;
-            ub.Port = Config.Port;
-            ub.Query = "format=json";
-            return ub.Uri;
+            var response = await relayService.Relay(Request);
+            return await linkInterceptor.Intercept(response, Request.RequestUri);
         }
     }
 }
