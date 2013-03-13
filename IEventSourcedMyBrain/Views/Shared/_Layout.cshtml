@@ -2,19 +2,15 @@
 <html>
 <head>
     <title>Brain Store</title>
-    <script src="~/web/es/lib/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+    
+    
+    @Styles.Render("~/Styles/charts")
+    @Styles.Render("~/Styles/layout")
+    @Styles.Render("~/Styles/bootstrap")
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
-    <meta name="author" content=""/>
-
-    <link rel="stylesheet" href="~/web/es/lib/charts/rickshaw.min.css" />
-    <link rel="stylesheet" href="~/web/es/lib/charts/d3.css" />   
-    <link rel="stylesheet" href="~/web/es/css/es.charts.css" />
-    <link rel="stylesheet" href="~/web/es/css/es.sitelayout.css" />
-    <link rel="stylesheet" href="~/web/es/lib/jquery/jquery-ui-1.8.23.custom.css" />
-    <link rel="stylesheet" href="~/web/es/lib/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" href="~/web/es/lib/bootstrap/css/bootstrap-responsive.css"/>
+    <meta name="author" content=""/>    
 
     <!-- for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -76,25 +72,13 @@
             </div>
         </div>
     </footer>
+
+    @Scripts.Render("~/Scripts/jquery")    
+    @Scripts.Render("~/Scripts/eventstore")
+    @Scripts.Render("~/Scripts/controls")
+    @Scripts.Render("~/Scripts/charts")
+    @Scripts.Render("~/Scripts/bootstrap")  
     
-    <script src="~/web/es/projections/es.api.js" type="text/javascript" ></script>
-    <script src="~/web/es/projections/es.projections.environment.js" type="text/javascript" ></script>
-    <script src="~/web/es/projections/es.projections.js" type="text/javascript" ></script>
-    <script src="~/web/es/modules.js" type="text/javascript" ></script>
-    <script src="~/web/es/projections.js" type="text/javascript" ></script>
-    <script src="~/web/es/Prelude1.js" type="text/javascript" ></script>
-    <script src="~/web/es/projections/emoProjection.js" type="text/javascript" ></script>
-
-    <script src="~/web/es/lib/jquery/jquery-ui-1.8.23.min.js" type="text/javascript"></script>
-    <script src="~/web/es/lib/charts/d3.min.js" type="text/javascript"></script>
-    <script src="~/web/es/lib/charts/d3.layout.min.js" type="text/javascript"></script>
-    <script src="~/web/es/lib/charts/rickshaw.js" type="text/javascript"></script>
-
-    <script src="~/web/es/js/controls/es.Sessions.js" type="text/javascript" ></script>
-    <script src="~/web/es/js/controls/es.TimeSeries.js" type="text/javascript"></script>
-    <script src="~/web/es/js/controls/es.Zoomer.js" type="text/javascript"></script>
-    <script src="~/web/es/js/controls/es.Selector.js" type="text/javascript"></script>
-    <script src="~/web/es/js/es.chartSetup.js" type="text/javascript"></script>
-    <script src="~/web/es/lib/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
+    
 </body>
 </html>
