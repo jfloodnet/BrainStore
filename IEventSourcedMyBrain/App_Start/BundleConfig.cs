@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Optimization;
@@ -16,37 +17,28 @@ namespace IEventSourcedMyBrain.App_Start
                 "~/web/es/lib/jquery/jquery-ui-{version}.js")
             );
 
-            bundles.Add(new ScriptBundle("~/Scripts/eventstore").Include(
-                "~/web/es/projections/es.api.js",
-                "~/web/es/projections/es.projections.environment.js",
-                "~/web/es/projections/es.projections.js",
-                "~/web/es/modules.js",
-                "~/web/es/projections.js",
-                "~/web/es/Prelude1.js",
-                "~/web/es/projections/emoProjection.js")
+            AddFileSetOrdering(bundles);
+
+            bundles.Add(new ScriptBundle("~/Scripts/eventstore").IncludeDirectory(
+                    "~/web/es/projections/", "*.js")
             );
 
-            bundles.Add(new ScriptBundle("~/Scripts/controls").Include(
-               "~/web/es/js/controls/es.Sessions.js",
-               "~/web/es/js/controls/es.TimeSeries.js",
-               "~/web/es/js/controls/es.Zoomer.js",
-               "~/web/es/js/controls/es.Selector.js")
-            );
-
-            bundles.Add(new ScriptBundle("~/Scripts/charts").Include(
-                  "~/web/es/lib/charts/d3.js",
-                  "~/web/es/lib/charts/d3.layout.js",
-                  "~/web/es/lib/charts/rickshaw.js",
+            bundles.Add(new ScriptBundle("~/Scripts/charts").IncludeDirectory(
+                "~/web/es/lib/charts/js/", "*.js").Include(
                   "~/web/es/js/es.chartSetup.js")
             );
+
+            bundles.Add(new ScriptBundle("~/Scripts/controls").IncludeDirectory(
+                "~/web/es/js/controls/", "es.*")
+            );
+
 
             bundles.Add(new ScriptBundle("~/Scripts/bootstrap").Include(
                 "~/web/es/lib/bootstrap/js/bootstrap.js")
             );
 
-            bundles.Add(new StyleBundle("~/Styles/charts").Include(
-                "~/web/es/lib/charts/d3.css",
-                "~/web/es/lib/charts/rickshaw.css",
+            bundles.Add(new StyleBundle("~/Styles/charts").IncludeDirectory(
+                "~/web/es/lib/charts/css/", "*.css").Include(
                 "~/web/es/css/es.charts.css")
             );
 
@@ -55,12 +47,16 @@ namespace IEventSourcedMyBrain.App_Start
                 "~/web/es/lib/jquery/jquery-ui-1.8.23.custom.css")
             );
 
-            bundles.Add(new StyleBundle("~/Styles/bootstrap").Include(
-                "~/web/es/lib/bootstrap/css/bootstrap.css",
-                "~/web/es/lib/bootstrap/css/bootstrap-responsive.css")
+            bundles.Add(new StyleBundle("~/Styles/bootstrap").IncludeDirectory(
+                "~/web/es/lib/bootstrap/css/", "*.css")
             );
+        }
 
-            BundleTable.EnableOptimizations = true;
+        private static void AddFileSetOrdering(BundleCollection bundles)
+        {
+            var fileSet = new BundleFileSetOrdering("projections");
+            fileSet.Files.Add("Projections.js");
+            bundles.FileSetOrderList.Add(fileSet);
         }
     }
 }
