@@ -36,8 +36,16 @@ namespace IEventSourcedMyBrain
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
+            builder.RegisterType<LiveEmotivSessionSubscriber>()
+                .AsSelf()
+                .SingleInstance();
+
+
             
             var container = builder.Build();
+
+            container.Resolve<LiveEmotivSessionSubscriber>().Subscribe();
+
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             cfg.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }

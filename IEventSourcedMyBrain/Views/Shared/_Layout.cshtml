@@ -44,7 +44,7 @@
                                 <a href="~/index.htm"> Home </a>
                             </li>
                             <li class="">
-                                <a href="~/index.htm"> Live </a>
+                                <a href="@Url.Action("", "Live")"> Live </a>
                             </li>
                         </ul>
                     </div>
@@ -78,6 +78,8 @@
     @Scripts.Render("~/Scripts/charts")
     @Scripts.Render("~/Scripts/controls")
     @Scripts.Render("~/Scripts/bootstrap")  
+    
+    @RenderSection("scripts")
     
     
 </body>

@@ -2,5 +2,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-1.0.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+        var hub = $.connection.liveEmotivSessionHub;
+        $.connection.hub.start();
+        
+
+        hub.client.handle = function(message) {
+            alert(message);
+        };
+        
+        hub.client.handleEvent = function (message) {
+            alert(message);
+        };
+        
+        hub.server.subscribe();
+
+        $("#bu").click(function () {
+            hub.server.send("hi there bu");
+        });
+
+    </script>
+}
+
+<button id="bu">text </button>
 <p>There is currently no live session.</p>
         
