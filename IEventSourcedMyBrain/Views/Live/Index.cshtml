@@ -7,24 +7,30 @@
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">
-        var hub = $.connection.liveEmotivSessionHub;
-        $.connection.hub.start();
-        
+        $(function() {
+            var hub = $.connection.liveEmotivSessionHub;
+            
 
-        hub.client.handle = function(message) {
-            alert(message);
-        };
-        
-        hub.client.handleEvent = function (message) {
-            alert(message);
-        };
-        
-        hub.server.subscribe();
+            //hub.client.handle = function (message) {
+            //    alert(message);
+            //};
 
-        $("#bu").click(function () {
-            hub.server.send("hi there bu");
+            hub.client.handleEvent = function (message) {
+                alert(JSON.stringify(message));
+            };
+
+            //$("#bu").click(function () {
+            //    hub.server.send("hi there bu");
+            //});
+            
+            $.connection.hub.start()
+                	.done(function () {
+                	    $("body").append("Connected!");
+                	    hub.server.subscribeToThis();
+                	});
+
+            
         });
-
     </script>
 }
 

@@ -30,14 +30,14 @@ namespace IEventSourcedMyBrain.Controllers
             Clients.All.Handle(message);
         }
 
-        public Task Subscribe()
+        public void SubscribeToThis()
         {
-            return Groups.Add(Context.ConnectionId, "LiveEmotivSession");
+            Groups.Add(Context.ConnectionId, "LiveEmotivSession");
         }
 
-        public Task Unsubscribe()
+        public void Unsubscribe()
         {
-            return Groups.Remove(Context.ConnectionId, "LiveEmotivSession");
+            Groups.Remove(Context.ConnectionId, "LiveEmotivSession");
         }
     }
 
@@ -52,22 +52,22 @@ namespace IEventSourcedMyBrain.Controllers
 
         public void Subscribe()
         {
-            this.connection.SubscribeToAll(true, SendToClient);
+            this.connection.SubscribeToStream("$ce-EmoSession", true, SendToClient);
         }
 
         private static void SendToClient(ResolvedEvent e)
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<LiveEmotivSessionHub>();
             var theGroup = context.Clients.Group("LiveEmotivSession");
-            var data = Encoding.UTF8.GetString(e.OriginalEvent.Data);
-            var metadata = Encoding.UTF8.GetString(e.OriginalEvent.Metadata);
+            var data = Encoding.UTF8.GetString(e.Event.Data);
+            var metadata = Encoding.UTF8.GetString(e.Event.Metadata);
 
             theGroup.handleEvent(new
             {
-                eventId = e.OriginalEvent.EventId,
-                eventNumber = e.OriginalEvent.EventNumber,
-                eventStreamId = e.OriginalEvent.EventStreamId,
-                eventType = e.OriginalEvent.EventType,
+                eventId = e.Event.EventId,
+                eventNumber = e.Event.EventNumber,
+                eventStreamId = e.Event.EventStreamId,
+                eventType = e.Event.EventType,
                 data,
                 metadata
             });

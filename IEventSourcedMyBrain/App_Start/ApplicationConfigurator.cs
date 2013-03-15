@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
@@ -44,7 +45,7 @@ namespace IEventSourcedMyBrain
             
             var container = builder.Build();
 
-            container.Resolve<LiveEmotivSessionSubscriber>().Subscribe();
+            Task.Run(() => container.Resolve<LiveEmotivSessionSubscriber>().Subscribe());
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             cfg.DependencyResolver = new AutofacWebApiDependencyResolver(container);
