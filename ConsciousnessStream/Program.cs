@@ -22,7 +22,7 @@ namespace ConsciousnessStream
 
                 var sessionId = Guid.NewGuid();
                 var streamName = StreamName.Create(sessionId, "EmoSession");
-                var activity = UserActivity.Create("Music - ");
+                var activity = UserActivity.Create("Jamming - waves");
                 
                 IEventStore eventStore = new EventStoreWrapper(connection,() =>  WriteMetaData(activity));                
 

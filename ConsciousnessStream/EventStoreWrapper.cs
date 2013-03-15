@@ -28,7 +28,7 @@ namespace ConsciousnessStream
 
         public void Store(StreamName streamName, object @event)
         {
-            eventStoreConnection.AppendToStream(streamName, ExpectedVersion.Any, JsonEventData.Create(Guid.NewGuid(), @event, this.writeMetaData));
+            eventStoreConnection.AppendToStreamAsync(streamName, ExpectedVersion.Any, JsonEventData.Create(Guid.NewGuid(), @event, this.writeMetaData));
         }
 
         private static class JsonEventData

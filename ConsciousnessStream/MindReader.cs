@@ -27,8 +27,8 @@ namespace ConsciousnessStream
         public void StartReading()
         {
             //engine.Connect();
-            //engine.RemoteConnect("127.0.0.1", 3008);
-            engine.RemoteConnect("127.0.0.1", 1726);
+            engine.RemoteConnect("127.0.0.1", 3008);
+            //engine.RemoteConnect("127.0.0.1", 1726);
 
             ConsoleKeyInfo cki = new ConsoleKeyInfo();
             
