@@ -27,11 +27,11 @@ namespace IEventSourcedMyBrain
                 defaults: relaycontroller
             );
 
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApi",
-            //    routeTemplate: "{controller}/{id}/",
-            //    defaults: new { id = RouteParameter.Optional }
-            //); 
+            config.Routes.MapHttpRoute(
+                name: "EventStoreApi",
+                routeTemplate: "es/{controller}/{id}/",
+                defaults: new { id = RouteParameter.Optional }
+            ); 
         }
     }
 }

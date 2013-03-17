@@ -8,7 +8,7 @@ es.EmoSessions = function (opts) {
 
     function populateEmotivSessions() {        
         $.ajax({
-            url: "/EmotivSessions/",
+            url: "es/emotivsessions/",
             type: "GET",
             success: function (data) {
                 $.each(data, function () {

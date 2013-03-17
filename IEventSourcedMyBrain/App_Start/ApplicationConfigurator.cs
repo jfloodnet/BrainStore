@@ -8,6 +8,8 @@ using Autofac.Core;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using IEventSourcedMyBrain.Controllers;
+using IEventSourcedMyBrain.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace IEventSourcedMyBrain
 {
@@ -20,7 +22,7 @@ namespace IEventSourcedMyBrain
             builder.Register(ctx => EventStoreConnectionFactory.Create())
                    .SingleInstance();
             builder.RegisterType<EventStoreReader>()
-                   .AsSelf().InstancePerApiRequest();
+                   .AsSelf().SingleInstance();
 
             builder.RegisterType<RelayService>()
                    .WithParameter(
@@ -41,12 +43,15 @@ namespace IEventSourcedMyBrain
                 .AsSelf()
                 .SingleInstance();
 
-
+            builder.RegisterType<HistoricalEmotivSessionReader>()
+                .AsSelf()
+                .SingleInstance(); 
             
             var container = builder.Build();
 
             Task.Run(() => container.Resolve<LiveEmotivSessionSubscriber>().Subscribe());
 
+            GlobalHost.DependencyResolver = new DepedencyResolverWrapper(new Autofac.Integration.SignalR.AutofacDependencyResolver(container));
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             cfg.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
@@ -61,4 +66,38 @@ namespace IEventSourcedMyBrain
             return ub.Uri;
         }
     }
+
+    public class DepedencyResolverWrapper : Microsoft.AspNet.SignalR.IDependencyResolver
+    {
+        private readonly Microsoft.AspNet.SignalR.IDependencyResolver inner;
+        public DepedencyResolverWrapper(Microsoft.AspNet.SignalR.IDependencyResolver inner)
+        {
+            this.inner = inner;
+        }
+        public object GetService(Type serviceType)
+        {
+            return inner.GetService(serviceType);
+        }
+
+        public System.Collections.Generic.IEnumerable<object> GetServices(Type serviceType)
+        {
+            return this.inner.GetServices(serviceType);
+        }
+
+        public void Register(Type serviceType, System.Collections.Generic.IEnumerable<Func<object>> activators)
+        {
+            inner.Register(serviceType, activators);
+        }
+
+        public void Register(Type serviceType, Func<object> activator)
+        {
+            inner.Register(serviceType, activator);
+        }
+
+        public void Dispose()
+        {
+            this.inner.Dispose();
+        }
+    }
+
 }

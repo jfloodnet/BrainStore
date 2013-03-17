@@ -4,7 +4,8 @@ function emoProjection(options) {
     var onStateUpdated = options.onStateUpdated || function () { };
     var host = options.host;
 
-    return es.projection({        
+    return es.projection({
+        hub: $.connection.historicalEmotivSessionHub,
         body: function () {
             fromStream(streamName).when({
                 $init: function () {

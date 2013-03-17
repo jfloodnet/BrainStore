@@ -16,7 +16,7 @@ namespace IEventSourcedMyBrain.Controllers
             this.connection = connection;
         }
 
-        public IEnumerable<TEvent> ReadAll<TEvent>(string streamName)
+        public IEnumerable<ResolvedEvent> ReadAll(string streamName)
         {
             StreamEventsSlice currentSlice;
             var nextSliceStart = 1;
@@ -26,11 +26,25 @@ namespace IEventSourcedMyBrain.Controllers
                 nextSliceStart = currentSlice.NextEventNumber;
 
                 foreach (var evnt in currentSlice.Events)
-                    yield return DeserializeEvent<TEvent>(evnt.OriginalEvent.Data);
+                    yield return evnt;
             } while (!currentSlice.IsEndOfStream);
         }
 
         public TEvent DeserializeEvent<TEvent>(byte[] data)
+        {
+            return JsonConvert.DeserializeObject<TEvent>(data.ReadAsString());
+        }
+    }
+
+    public static class ResolvedEventExtensions
+    {
+        public static IEnumerable<T> As<T> (this IEnumerable<ResolvedEvent> stream)
+        {
+            foreach( var evnt in stream)
+                yield return DeserializeEvent<T>(evnt.OriginalEvent.Data);
+        }
+
+        public static TEvent DeserializeEvent<TEvent>(byte[] data)
         {
             return JsonConvert.DeserializeObject<TEvent>(data.ReadAsString());
         }

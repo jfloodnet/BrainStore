@@ -74,10 +74,16 @@
     </footer>
 
     @Scripts.Render("~/Scripts/jquery")    
+
+      <script src="~/Scripts/jquery.signalR-1.0.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+
     @Scripts.Render("~/Scripts/eventstore")
     @Scripts.Render("~/Scripts/charts")
     @Scripts.Render("~/Scripts/controls")
     @Scripts.Render("~/Scripts/bootstrap")  
+
+    
     
     @RenderSection("scripts", false)
     

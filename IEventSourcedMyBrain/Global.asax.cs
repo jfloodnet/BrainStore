@@ -18,9 +18,14 @@ namespace IEventSourcedMyBrain
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            RouteTable.Routes.MapHubs();
+
+
+            
 
             ApplicationConfigurator.Configure(GlobalConfiguration.Configuration);
+
+            
+            RouteTable.Routes.MapHubs();
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -28,5 +33,11 @@ namespace IEventSourcedMyBrain
             
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

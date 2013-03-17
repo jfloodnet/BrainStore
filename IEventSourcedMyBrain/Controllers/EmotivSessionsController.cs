@@ -18,7 +18,7 @@ namespace IEventSourcedMyBrain.Controllers
 
         public IEnumerable<EmotivSession> Get()
         {
-            return reader.ReadAll<EmotivSession>("EmoSessionSummaries");
-        }
+            return reader.ReadAll("EmoSessionSummaries").As<EmotivSession>();
+        }        
     }
 }

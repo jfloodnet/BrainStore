@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +51,9 @@
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc4.3.0.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.SignalR">
+      <HintPath>..\packages\Autofac.SignalR.3.0.0\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi.3.0.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
@@ -161,6 +165,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\EventStoreHub.cs" />
     <Compile Include="Models\EmotivSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -245,7 +250,8 @@
     <Content Include="web\es\projections\emoProjection.js" />
     <Content Include="web\es\projections\es.api.js" />
     <Content Include="web\es\projections\es.projections.environment.js" />
-    <Content Include="web\es\projections\es.projections.js" />
+    <None Include="web\es\projections\es.projections.ps" />
+    <Content Include="web\es\projections\signalR.projections.js" />
     <Content Include="web\es\tmpl\_body.tmpl.html" />
     <Content Include="web\es\tmpl\_charts.tmpl.html" />
     <Content Include="web\es\tmpl\_head.tmpl.html" />
