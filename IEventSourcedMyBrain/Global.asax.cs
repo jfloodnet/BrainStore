@@ -1,13 +1,13 @@
-﻿using IEventSourcedMyBrain.App_Start;
+﻿using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
+using IEventSourcedMyBrain.App_Start;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
+
 
 namespace IEventSourcedMyBrain
 {
@@ -19,12 +19,14 @@ namespace IEventSourcedMyBrain
         {
             AreaRegistration.RegisterAllAreas();
 
+            var container = ApplicationConfigurator.Configure(GlobalConfiguration.Configuration);
 
-            
+            var autofacSignalRAdaptor = new DepedencyResolverWrapper(new Autofac.Integration.SignalR.AutofacDependencyResolver(container));
+            GlobalHost.DependencyResolver = autofacSignalRAdaptor;
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
-            ApplicationConfigurator.Configure(GlobalConfiguration.Configuration);
 
-            
             RouteTable.Routes.MapHubs();
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -38,6 +40,5 @@ namespace IEventSourcedMyBrain
         {
 
         }
-
     }
 }

@@ -15,14 +15,14 @@ namespace IEventSourcedMyBrain.Hubs
 {
     public class LiveEmotivSessionHub : Hub
     {
-        public void SubscribeTo(string streamName)
+        public Task SubscribeTo(string streamName)
         {
-            Groups.Add(Context.ConnectionId, "LiveEmotivSession");
+            return Groups.Add(Context.ConnectionId, "LiveEmotivSession");
         }
 
-        public void Unsubscribe()
+        public Task Unsubscribe()
         {
-            Groups.Remove(Context.ConnectionId, "LiveEmotivSession");
+            return Groups.Remove(Context.ConnectionId, "LiveEmotivSession");
         }
     }
 
@@ -62,39 +62,58 @@ namespace IEventSourcedMyBrain.Hubs
     public class HistoricalEmotivSessionHub : Hub
     {
         private HistoricalEmotivSessionReader reader;
+        private static ConcurrentDictionary<string, CancellationTokenSource> cancellationTokens = new ConcurrentDictionary<string, CancellationTokenSource>();
 
-        public HistoricalEmotivSessionHub()
+        public HistoricalEmotivSessionHub(HistoricalEmotivSessionReader reader)
         {
-            this.reader = (HistoricalEmotivSessionReader)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(HistoricalEmotivSessionReader));
+            this.reader = reader;
         }
 
-        public void SubscribeTo(string streamName)
+        public Task SubscribeTo(string streamName)
         {
-            Task.Run(() => this.reader.StartReading(streamName, Context.ConnectionId));                       
+            var ts = new CancellationTokenSource();
+            CancellationToken token = ts.Token;
+            cancellationTokens.TryAdd(Context.ConnectionId, ts);
+            return this.reader.StartReading(streamName, Context.ConnectionId, token);
         }
 
-        public void Unsubscribe()
+        public Task Unsubscribe()
         {
-            
+            return new Task(() => {/*noopfornow*/});
+        }
+
+        public override Task OnDisconnected()
+        {
+            CancellationTokenSource cts;
+            if (cancellationTokens.TryGetValue(Context.ConnectionId, out cts))
+            {
+                cts.Cancel();
+            }
+            return base.OnDisconnected();
         }
     }
 
     public class HistoricalEmotivSessionReader
     {
         private readonly EventStoreReader reader;
-
+        
         public HistoricalEmotivSessionReader(EventStoreReader reader)
         {
             this.reader = reader;
         }
 
-        public void StartReading(string streamName, string connectionId)
+        public Task StartReading(string streamName, string connectionId, CancellationToken token)
         {
-            foreach (var evnt in this.reader.ReadAll(streamName))
-            {
-                SendToClient(evnt, connectionId);
-                Thread.Sleep(1000);
-            }
+            return Task.Run(() =>
+                {
+                    foreach (var evnt in this.reader.ReadAll(streamName))
+                    {
+                        if (token.IsCancellationRequested) break;
+
+                        SendToClient(evnt, connectionId);
+                        Thread.Sleep(1000);
+                    }
+                }, token);
         }
 
         private static void SendToClient(ResolvedEvent e, string connectionId)

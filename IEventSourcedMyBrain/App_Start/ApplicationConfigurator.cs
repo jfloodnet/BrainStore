@@ -15,45 +15,42 @@ namespace IEventSourcedMyBrain
 {
     public static class ApplicationConfigurator
     {
-        public static void Configure(HttpConfiguration cfg)
+        public static IContainer Configure(HttpConfiguration cfg)
         {
             var builder = new ContainerBuilder();
 
             builder.Register(ctx => EventStoreConnectionFactory.Create())
                    .SingleInstance();
             builder.RegisterType<EventStoreReader>()
-                   .AsSelf().SingleInstance();
+                   .AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<RelayService>()
                    .WithParameter(
                     new TypedParameter(typeof (Func<Uri, Uri>), 
                     new Func<Uri, Uri>(uri => RelayUri(uri))))
-                    .InstancePerHttpRequest();
+                    .InstancePerLifetimeScope();
 
             builder.RegisterType<LinkInterceptor>().AsSelf()
                    .WithParameter(new NamedParameter("host", Config.Host))
                    .WithParameter(new NamedParameter("port", Config.Port))
                    .WithParameter(new TypedParameter(typeof (HttpConfiguration), cfg))
-                   .InstancePerHttpRequest();
+                   .InstancePerLifetimeScope();
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterType<LiveEmotivSessionHub>().InstancePerLifetimeScope();
+            builder.RegisterType<HistoricalEmotivSessionHub>().InstancePerLifetimeScope();
 
             builder.RegisterType<LiveEmotivSessionSubscriber>()
                 .AsSelf()
                 .SingleInstance();
 
             builder.RegisterType<HistoricalEmotivSessionReader>()
-                .AsSelf()
-                .SingleInstance(); 
-            
-            var container = builder.Build();
+                   .AsSelf()
+                   .InstancePerLifetimeScope();
 
-            Task.Run(() => container.Resolve<LiveEmotivSessionSubscriber>().Subscribe());
-
-            GlobalHost.DependencyResolver = new DepedencyResolverWrapper(new Autofac.Integration.SignalR.AutofacDependencyResolver(container));
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            cfg.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            return builder.Build();
         }
 
 
