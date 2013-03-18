@@ -7,34 +7,38 @@ es.projection = function (settings) {
     var hideError = settings.hideError || function () { };        
     var category = null;
     var hub = settings.hub;
+    var connected = false;
     var subscriptions = [];
+    
 
     return {
         start: startProjection,
         stop: stopProjection
     };
 
-    function startProjection() {        
+    function startProjection() {
+        stopProjection();
         var processor = $initialize_hosted_projections();
         projectionBody();
         processor.initialize();
         var sources = JSON.parse(processor.get_sources());
 
-        hub.client.handleEvent = function (event) {
+        hub.client.handleEvent = function(event) {
             var parsedEvent = event;
             processor.process_event(parsedEvent.data,
-            parsedEvent.eventStreamId,
-            parsedEvent.eventType,
-            category,
-            parsedEvent.eventNumber,
-            parsedEvent.metadata);
+                parsedEvent.eventStreamId,
+                parsedEvent.eventType,
+                category,
+                parsedEvent.eventNumber,
+                parsedEvent.metadata);
             var stateStr = processor.get_state();
             var stateObj = JSON.parse(stateStr);
             onStateUpdate(stateObj, stateStr);
-        }
+        };
 
         $.connection.hub.start()
-         .done(function () {  
+         .done(function () {
+             connected = true;
              subscribeTo(sources);
          });        
     }
@@ -60,6 +64,7 @@ es.projection = function (settings) {
     }
 
     function stopProjection() {
+        if (connected)
         for (var i = 0; i < subscriptions.length; i++) {
             hub.server.unsubscribe(subscriptions[i]);
         }        

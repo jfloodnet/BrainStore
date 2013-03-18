@@ -3,8 +3,8 @@ es.Zoomer = function (sets) {
 
     var getNext = sets.getNext;
     var getPrev = sets.getPrev;
-    var onStop = sets.onStop;
-    var onPlay = sets.onPlay;
+    var onStop = sets.onStop || function() { };
+    var onPlay = sets.onPlay || function () { };
 
     this.show = show;
 

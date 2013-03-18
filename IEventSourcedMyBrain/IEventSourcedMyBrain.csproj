@@ -165,7 +165,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\EventStoreHub.cs" />
+    <Compile Include="Hubs\HistoricalEmotivSessionReader.cs" />
+    <Compile Include="Hubs\HistoricalEmotivSessionHub.cs" />
+    <Compile Include="Hubs\LiveEmotivSessionHub.cs" />
+    <Compile Include="Hubs\LiveEmotivSessionSubscriber.cs" />
     <Compile Include="Models\EmotivSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -176,6 +179,8 @@
     <Content Include="Global.asax" />
     <Content Include="index.htm" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\Application\Home\home.js" />
+    <Content Include="Scripts\Application\Live\live.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.1.js" />

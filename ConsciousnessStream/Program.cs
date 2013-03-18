@@ -19,7 +19,7 @@ namespace ConsciousnessStream
             using (var connection = EventStoreConnection.Create())
             {
                 //54.252.92.203
-                connection.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113));
+                connection.Connect(new IPEndPoint(IPAddress.Parse("54.252.92.203"), 1113));
 
                 var sessionId = Guid.NewGuid();
                 var streamName = StreamName.Create(sessionId, "EmoSession");

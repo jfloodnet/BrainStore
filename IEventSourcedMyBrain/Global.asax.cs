@@ -1,4 +1,6 @@
-﻿using Autofac.Integration.Mvc;
+﻿using System.Threading.Tasks;
+using Autofac;
+using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using IEventSourcedMyBrain.App_Start;
 using System;
@@ -6,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using IEventSourcedMyBrain.Hubs;
 using Microsoft.AspNet.SignalR;
 
 
@@ -26,6 +29,7 @@ namespace IEventSourcedMyBrain
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
+            Task.Run(() => container.Resolve<LiveEmotivSessionSubscriber>().Subscribe());
 
             RouteTable.Routes.MapHubs();
 

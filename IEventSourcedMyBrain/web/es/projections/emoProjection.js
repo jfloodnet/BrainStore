@@ -1,13 +1,13 @@
 ﻿
 function emoProjection(options) {
-    var streamName = options.streamName || "";
     var onStateUpdated = options.onStateUpdated || function () { };
-    var host = options.host;
+    var hub = options.hub;
+    var fromSource = options.fromSource;
 
     return es.projection({
-        hub: $.connection.historicalEmotivSessionHub,
+        hub: hub,
         body: function () {
-            fromStream(streamName).when({
+            fromSource().when({
                 $init: function () {
                     var state = {};
                     state["StateEvent"] = "";
@@ -57,7 +57,6 @@ function emoProjection(options) {
         },
         hideError: function () {
             $('.error').hide().text("");
-        },
-        host: host
+        }
     });
 }
