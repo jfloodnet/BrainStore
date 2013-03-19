@@ -30,7 +30,7 @@ namespace IEventSourcedMyBrain.Hubs
                         if (token.IsCancellationRequested) break;
 
                         SendToClient(evnt, connectionId);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(300);
                     }
                 }, token);
         }

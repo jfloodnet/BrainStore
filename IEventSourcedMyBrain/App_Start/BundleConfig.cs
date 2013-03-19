@@ -47,8 +47,10 @@ namespace IEventSourcedMyBrain.App_Start
                 "~/web/es/lib/jquery/jquery-ui-1.8.23.custom.css")
             );
 
-            bundles.Add(new StyleBundle("~/Styles/bootstrap").IncludeDirectory(
-                "~/web/es/lib/bootstrap/css/", "*.css")
+            bundles.Add(new StyleBundle("~/Styles/bootstrap").Include(
+                "~/web/es/lib/bootstrap/css/bootstrap.css",
+                "~/web/es/lib/bootstrap/css/bootstrap-responsive.css"
+                )
             );
         }
 

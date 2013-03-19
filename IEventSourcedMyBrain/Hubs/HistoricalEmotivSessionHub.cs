@@ -7,8 +7,10 @@ namespace IEventSourcedMyBrain.Hubs
 {
     public class HistoricalEmotivSessionHub : Hub
     {
-        private HistoricalEmotivSessionReader reader;
-        private static ConcurrentDictionary<string, CancellationTokenSource> cancellationTokens = new ConcurrentDictionary<string, CancellationTokenSource>();
+        private readonly HistoricalEmotivSessionReader reader;
+        private readonly Task empty = Task.FromResult(0);
+
+        private readonly static ConcurrentDictionary<string, CancellationTokenSource> cancellationTokens = new ConcurrentDictionary<string, CancellationTokenSource>();
 
         public HistoricalEmotivSessionHub(HistoricalEmotivSessionReader reader)
         {
@@ -17,25 +19,33 @@ namespace IEventSourcedMyBrain.Hubs
 
         public Task SubscribeTo(string streamName)
         {
-            var ts = new CancellationTokenSource();
-            CancellationToken token = ts.Token;
-            cancellationTokens.TryAdd(Context.ConnectionId, ts);
-            return this.reader.StartReading(streamName, Context.ConnectionId, token);
+            TryCancelCurrentReadingForConnection();
+
+            var source  = new CancellationTokenSource();
+            if(cancellationTokens.TryAdd(Context.ConnectionId, source))
+                return this.reader.StartReading(streamName, Context.ConnectionId, source.Token);
+
+            return empty;
         }
 
-        public Task Unsubscribe()
+        public void Unsubscribe(string streamName)
         {
-            return new Task(() => {/*noopfornow*/});
+            TryCancelCurrentReadingForConnection();
         }
 
         public override Task OnDisconnected()
         {
+            TryCancelCurrentReadingForConnection();
+            return base.OnDisconnected();
+        }
+
+        public void TryCancelCurrentReadingForConnection()
+        {
             CancellationTokenSource cts;
-            if (cancellationTokens.TryGetValue(Context.ConnectionId, out cts))
+            if (cancellationTokens.TryRemove(Context.ConnectionId, out cts))
             {
                 cts.Cancel();
             }
-            return base.OnDisconnected();
         }
     }
 }

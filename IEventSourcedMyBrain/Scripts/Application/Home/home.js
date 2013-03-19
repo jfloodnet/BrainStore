@@ -6,12 +6,13 @@
     });
 
     var charts = new es.Charts();
-    
-    function playSessionFor(streamName) {
 
+    var projection;
+    function playSessionFor(streamName) {
+        if (projection) projection.stop();
         charts.reset();
-        
-        var projection = new emoProjection({
+
+        projection = new emoProjection({
             fromSource: fromSource,
             hub: $.connection.historicalEmotivSessionHub,
             onStateUpdated: function(state) {
