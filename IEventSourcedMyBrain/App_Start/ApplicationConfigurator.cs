@@ -10,6 +10,9 @@ using Autofac.Integration.WebApi;
 using IEventSourcedMyBrain.Controllers;
 using IEventSourcedMyBrain.Hubs;
 using Microsoft.AspNet.SignalR;
+using Autofac.Builder;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IEventSourcedMyBrain
 {
@@ -53,7 +56,6 @@ namespace IEventSourcedMyBrain
             return builder.Build();
         }
 
-
         private static Uri RelayUri(Uri requestUri)
         {
             var ub = new UriBuilder(requestUri);
@@ -96,5 +98,5 @@ namespace IEventSourcedMyBrain
             this.inner.Dispose();
         }
     }
-
 }
+

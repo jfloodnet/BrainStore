@@ -10,7 +10,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using IEventSourcedMyBrain.Hubs;
 using Microsoft.AspNet.SignalR;
-
+using SignalRResolver = Autofac.Integration.SignalR.AutofacDependencyResolver;
 
 namespace IEventSourcedMyBrain
 {
@@ -24,12 +24,7 @@ namespace IEventSourcedMyBrain
 
             var container = ApplicationConfigurator.Configure(GlobalConfiguration.Configuration);
 
-            var autofacSignalRAdaptor = new DepedencyResolverWrapper(new Autofac.Integration.SignalR.AutofacDependencyResolver(container));
-            GlobalHost.DependencyResolver = autofacSignalRAdaptor;
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-
-            Task.Run(() => container.Resolve<LiveEmotivSessionSubscriber>().Subscribe());
+            WireUpResolvers(container);            
 
             RouteTable.Routes.MapHubs();
 
@@ -38,6 +33,16 @@ namespace IEventSourcedMyBrain
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        private void WireUpResolvers(IContainer container)
+        {
+            //SignalR
+            GlobalHost.DependencyResolver = new DepedencyResolverWrapper(new SignalRResolver(container)); 
+            //MVC
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //WebApi
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
 
         protected void Application_Error(Object sender, EventArgs e)

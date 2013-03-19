@@ -15,6 +15,7 @@ namespace IEventSourcedMyBrain.Hubs
     public class HistoricalEmotivSessionReader
     {
         private readonly EventStoreReader reader;
+        private int EventDispatchInterval = 300;
         
         public HistoricalEmotivSessionReader(EventStoreReader reader)
         {
@@ -30,7 +31,7 @@ namespace IEventSourcedMyBrain.Hubs
                         if (token.IsCancellationRequested) break;
 
                         SendToClient(evnt, connectionId);
-                        Thread.Sleep(300);
+                        Thread.Sleep(EventDispatchInterval);
                     }
                 }, token);
         }

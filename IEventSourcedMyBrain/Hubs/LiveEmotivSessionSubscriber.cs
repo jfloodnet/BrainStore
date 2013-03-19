@@ -1,21 +1,29 @@
 ﻿using System.Text;
 using EventStore.ClientAPI;
 using Microsoft.AspNet.SignalR;
+using System.Threading.Tasks;
 
 namespace IEventSourcedMyBrain.Hubs
 {
     public class LiveEmotivSessionSubscriber
     {
         private readonly EventStoreConnection connection;
+        private EventStoreSubscription subscription;
 
         public LiveEmotivSessionSubscriber(EventStoreConnection connection)
         {
             this.connection = connection;
         }
 
-        public void Subscribe()
+        public async Task Subscribe()
         {
-            this.connection.SubscribeToStream("$ce-EmoSession", true, SendToClient);
+            this.subscription = await this.connection.SubscribeToStream("$ce-EmoSession", true, SendToClient);
+        }
+
+        public void Unsubscribe()
+        {
+            if (subscription != null) 
+                this.subscription.Unsubscribe();
         }
 
         private static void SendToClient(ResolvedEvent e)
