@@ -14,6 +14,9 @@ es.EmoSessions = function (opts) {
                 $.each(data, function () {
                     addOption(this);
                 });
+                var hash = window.location.hash;
+                if(hash)
+                    selectFirstSessionForOptGroup(hash.substring(1));
             }
         });        
     }
@@ -51,5 +54,10 @@ es.EmoSessions = function (opts) {
 
     function found(optgroup) {
         return optgroup.length > 0;
+    }
+    
+    function selectFirstSessionForOptGroup(optGroup) {
+        var group = findOptGroup(optGroup);
+        group.children('option:first').attr('selected', 'selected');
     }
 }

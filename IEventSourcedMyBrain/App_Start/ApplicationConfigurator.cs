@@ -42,8 +42,8 @@ namespace IEventSourcedMyBrain
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<LiveEmotivSessionHub>().InstancePerLifetimeScope();
-            builder.RegisterType<HistoricalEmotivSessionHub>().InstancePerLifetimeScope();
+            builder.RegisterType<LiveEmotivSessionHub>();
+            builder.RegisterType<HistoricalEmotivSessionHub>();
 
             builder.RegisterType<LiveEmotivSessionSubscriber>()
                 .AsSelf()

@@ -1,21 +1,15 @@
 ﻿using EventStore.ClientAPI;
-using EventStore.ClientAPI.Common.Concurrent;
 using IEventSourcedMyBrain.Controllers;
 using Microsoft.AspNet.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace IEventSourcedMyBrain.Hubs
 {
     public class HistoricalEmotivSessionReader
     {
         private readonly EventStoreReader reader;
-        private int EventDispatchInterval = 300;
         
         public HistoricalEmotivSessionReader(EventStoreReader reader)
         {
@@ -31,7 +25,7 @@ namespace IEventSourcedMyBrain.Hubs
                         if (token.IsCancellationRequested) break;
 
                         SendToClient(evnt, connectionId);
-                        Thread.Sleep(EventDispatchInterval);
+                        Thread.Sleep(Config.HistoricalSessionDispatchInterval);
                     }
                 }, token);
         }

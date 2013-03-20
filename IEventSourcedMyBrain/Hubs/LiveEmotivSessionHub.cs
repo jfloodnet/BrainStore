@@ -1,55 +1,49 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+using EventStore.ClientAPI;
 using Microsoft.AspNet.SignalR;
 
 namespace IEventSourcedMyBrain.Hubs
 {
     public class LiveEmotivSessionHub : Hub
     {
-        private readonly object lockObject = new object();
-        private int numberOfSubscribers = 0;
-
         private readonly LiveEmotivSessionSubscriber subscriber;
+
+        private readonly static ConcurrentDictionary<string, EventStoreSubscription> subscriptions = new ConcurrentDictionary<string, EventStoreSubscription>();
 
         public LiveEmotivSessionHub(LiveEmotivSessionSubscriber subscriber)
         {
             this.subscriber = subscriber;
         }
 
-        public Task SubscribeTo(string streamName)
+        public async Task SubscribeTo(string streamName)
         {
-            IfFirstOneInOpenTheDoor();
-            return Groups.Add(Context.ConnectionId, "LiveEmotivSession");
-        }
-
-        private void IfFirstOneInOpenTheDoor()
-        {
-            lock (lockObject)
+            TryCancelCurrentSubscriptionForConnection();
+            var subscription = await this.subscriber.Subscribe(Context.ConnectionId);
+            if (subscriptions.TryAdd(Context.ConnectionId, subscription))
             {
-                if(numberOfSubscribers == 0)
-                    Task.Run(() => this.subscriber.Subscribe());
-                numberOfSubscribers++;
+                //noop
             }
         }
-
+        
         public override Task OnDisconnected()
         {
-            Unsubscribe();
+            TryCancelCurrentSubscriptionForConnection();
             return base.OnDisconnected();
         }
 
-        public Task Unsubscribe()
+        public void Unsubscribe()
         {
-            IfLastOneOutShutTheDoor();
-            return Groups.Remove(Context.ConnectionId, "LiveEmotivSession");
+            TryCancelCurrentSubscriptionForConnection();
         }
 
-        private void IfLastOneOutShutTheDoor()
+        private void TryCancelCurrentSubscriptionForConnection()
         {
-            lock (lockObject)
+            EventStoreSubscription subscription;
+            if (subscriptions.TryRemove(Context.ConnectionId, out subscription))
             {
-                if(numberOfSubscribers == 1)
-                    this.subscriber.Unsubscribe();
-                numberOfSubscribers--;
+                subscription.Unsubscribe();
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using IEventSourcedMyBrain.App_Start;
@@ -8,7 +7,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using IEventSourcedMyBrain.Hubs;
 using Microsoft.AspNet.SignalR;
 using SignalRResolver = Autofac.Integration.SignalR.AutofacDependencyResolver;
 

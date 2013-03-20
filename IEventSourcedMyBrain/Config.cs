@@ -19,5 +19,10 @@ namespace IEventSourcedMyBrain
                 return int.Parse(ConfigurationManager.AppSettings["EventStore.Port"]);
             }
         }
+
+        public static int HistoricalSessionDispatchInterval
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["SignalR.HistoricalSessions.DispatchInterval"]); }
+        }
     }
 }

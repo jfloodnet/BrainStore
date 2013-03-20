@@ -8,32 +8,25 @@ namespace IEventSourcedMyBrain.Hubs
     public class LiveEmotivSessionSubscriber
     {
         private readonly EventStoreConnection connection;
-        private EventStoreSubscription subscription;
-
+        
         public LiveEmotivSessionSubscriber(EventStoreConnection connection)
         {
             this.connection = connection;
         }
 
-        public async Task Subscribe()
+        public Task<EventStoreSubscription> Subscribe(string connectionId)
         {
-            this.subscription = await this.connection.SubscribeToStream("$ce-EmoSession", true, SendToClient);
+            return this.connection.SubscribeToStream("$ce-EmoSession", true, e => SendToClient(e, connectionId));
         }
 
-        public void Unsubscribe()
-        {
-            if (subscription != null) 
-                this.subscription.Unsubscribe();
-        }
-
-        private static void SendToClient(ResolvedEvent e)
+        private static void SendToClient(ResolvedEvent e, string connectionId)
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<LiveEmotivSessionHub>();
-            var theGroup = context.Clients.Group("LiveEmotivSession");
+            var theClient = context.Clients.Client(connectionId);
             var data = Encoding.UTF8.GetString(e.Event.Data);
             var metadata = Encoding.UTF8.GetString(e.Event.Metadata);
 
-            theGroup.handleEvent(new
+            theClient.handleEvent(new
                 {
                     eventId = e.Event.EventId,
                     eventNumber = e.Event.EventNumber,
