@@ -47,7 +47,7 @@ namespace IEventSourcedMyBrain
 
             builder.RegisterType<LiveEmotivSessionSubscriber>()
                 .AsSelf()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<HistoricalEmotivSessionReader>()
                    .AsSelf()
@@ -63,39 +63,6 @@ namespace IEventSourcedMyBrain
             ub.Port = Config.Port;
             ub.Query = "format=json";
             return ub.Uri;
-        }
-    }
-
-    public class DepedencyResolverWrapper : Microsoft.AspNet.SignalR.IDependencyResolver
-    {
-        private readonly Microsoft.AspNet.SignalR.IDependencyResolver inner;
-        public DepedencyResolverWrapper(Microsoft.AspNet.SignalR.IDependencyResolver inner)
-        {
-            this.inner = inner;
-        }
-        public object GetService(Type serviceType)
-        {
-            return inner.GetService(serviceType);
-        }
-
-        public System.Collections.Generic.IEnumerable<object> GetServices(Type serviceType)
-        {
-            return this.inner.GetServices(serviceType);
-        }
-
-        public void Register(Type serviceType, System.Collections.Generic.IEnumerable<Func<object>> activators)
-        {
-            inner.Register(serviceType, activators);
-        }
-
-        public void Register(Type serviceType, Func<object> activator)
-        {
-            inner.Register(serviceType, activator);
-        }
-
-        public void Dispose()
-        {
-            this.inner.Dispose();
         }
     }
 }

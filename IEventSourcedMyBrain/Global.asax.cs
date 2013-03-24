@@ -36,7 +36,7 @@ namespace IEventSourcedMyBrain
         private void WireUpResolvers(IContainer container)
         {
             //SignalR
-            GlobalHost.DependencyResolver = new DepedencyResolverWrapper(new SignalRResolver(container)); 
+            GlobalHost.DependencyResolver = new SignalRResolver(container); 
             //MVC
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             //WebApi

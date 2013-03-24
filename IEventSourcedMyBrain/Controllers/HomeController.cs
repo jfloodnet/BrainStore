@@ -21,6 +21,5 @@ namespace IEventSourcedMyBrain.Controllers
         {
             return View();
         }
-    }
-    
+    }    
 }
