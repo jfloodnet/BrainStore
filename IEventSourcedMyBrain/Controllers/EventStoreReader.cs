@@ -1,6 +1,7 @@
 ﻿using EventStore.ClientAPI;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using IEventSourcedMyBrain.Extensions;
 
 namespace IEventSourcedMyBrain.Controllers
@@ -40,8 +41,7 @@ namespace IEventSourcedMyBrain.Controllers
     {
         public static IEnumerable<T> As<T> (this IEnumerable<ResolvedEvent> stream)
         {
-            foreach( var evnt in stream)
-                yield return DeserializeEvent<T>(evnt.OriginalEvent.Data);
+            return stream.Select(evnt => DeserializeEvent<T>(evnt.OriginalEvent.Data));
         }
 
         public static TEvent DeserializeEvent<TEvent>(byte[] data)

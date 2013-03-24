@@ -7,6 +7,7 @@
         hub: $.connection.liveEmotivSessionHub,
         onStateUpdated: function(state) {
             charts.update(state);
+            $("#no-session").hide();
         }
     });
 

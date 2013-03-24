@@ -13,15 +13,7 @@ namespace IEventSourcedMyBrain
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            //routes.IgnoreRoute("{resource}.htm");
 
-            //routes.MapRoute(
-            //    name: "Live",
-            //    url: "live/{action}/{id}/",
-            //    defaults: new { controller = "live", action = "index", id = RouteParameter.Optional }
-            //); 
-
-            
             routes.MapRoute(    
                 name: "Default",
                 url: "{controller}/{action}/{id}/",

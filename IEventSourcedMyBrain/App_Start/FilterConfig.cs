@@ -11,5 +11,4 @@ namespace IEventSourcedMyBrain
             filters.Add(new HandleErrorAttribute());
         }
     }
-
  }
