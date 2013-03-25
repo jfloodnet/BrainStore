@@ -27,7 +27,6 @@ namespace IEventSourcedMyBrain.App_Start
                 "~/web/es/js/controls/", "es.*")
             );
 
-
             bundles.Add(new ScriptBundle("~/Scripts/bootstrap").Include(
                 "~/web/es/lib/bootstrap/js/bootstrap.js")
             );
@@ -46,6 +45,14 @@ namespace IEventSourcedMyBrain.App_Start
                 "~/web/es/lib/bootstrap/css/bootstrap.css",
                 "~/web/es/lib/bootstrap/css/bootstrap-responsive.css"
                 )
+            );
+
+            bundles.Add(new StyleBundle("~/Styles/GoogleAnalytics").Include(
+                "~/Scripts/External/google-analytics.js")
+            );
+
+            bundles.Add(new StyleBundle("~/Scripts/TwitterFollow").Include(
+                "~/Scripts/External/twitter-follow-button.js")
             );
         }
 

@@ -75,24 +75,30 @@
                 <div class="span12">
                     <p>
                         <a href="https://twitter.com/jfloodnet" class="twitter-follow-button" data-show-count="false">Follow @@jfloodnet</a>
-                        <span class="powered-by">Powered by <a href="http://geteventstore.com" target="_blank">EventStore 2012</a> </span>
-                        
                     </p>
+                </div>
+                <div class="powered-by span12">
+                    <p>Powered by <a href="http://geteventstore.com" target="_blank">EventStore 2012</a></p>
                 </div>
             </div>
         </div>
     </footer>
 
                               
-    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    <script></script>
     <style>
         footer .powered-by {
-            height: 100%;
-            margin: auto;
+            text-align: right;
         }
+
+        footer .span12 {
+            display: inline-block;
+            width: 47%;
+        }
+      
     </style>
 
-    @Scripts.Render("~/Scripts/jquery")    
+    @Scripts.Render("~/Scripts/jquery")
 
     <script src="~/Scripts/jquery.signalR-1.0.1.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -101,21 +107,10 @@
     @Scripts.Render("~/Scripts/charts")
     @Scripts.Render("~/Scripts/controls")
     @Scripts.Render("~/Scripts/bootstrap")  
-
-    
     
     @RenderSection("scripts", false)
-
-    <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-39457753-1']);
-          _gaq.push(['_trackPageview']);
-
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-    </script>
+    
+    @Scripts.Render("~/Scripts/GoogleAnalytics")
+    @Scripts.Render("~/Scripts/TwitterFollow")
 </body>
 </html>

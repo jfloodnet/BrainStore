@@ -181,6 +181,8 @@
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\Application\Home\home.js" />
     <Content Include="Scripts\Application\Live\live.js" />
+    <Content Include="Scripts\External\google-analytics.js" />
+    <Content Include="Scripts\External\twitter-follow-button.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.1.js" />
