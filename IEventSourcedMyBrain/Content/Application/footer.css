@@ -1,0 +1,29 @@
+﻿    
+footer div.span12 {                                                                                                                                                                                                                                          
+    display: inline-block;
+    width:48%;
+    
+}
+footer div.powered-by {
+    text-align: right;
+    margin-left: 0px;
+}
+
+footer .twitter-follow-button {
+    margin-left: 10px;
+}
+
+/* for devices and desktop when screen resolutions: width =< 640px */
+@media handheld, screen and (max-width: 760px),
+handheld, screen and (max-device-width: 760px)  {
+     footer div.span12 {                                                                                                                                                                                                                                          
+        display: block;
+        width:100%;
+        text-align: center;
+    }
+    footer div.powered-by {
+        
+    }  
+}
+  
+    

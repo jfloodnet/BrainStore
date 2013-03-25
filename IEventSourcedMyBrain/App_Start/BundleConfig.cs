@@ -38,7 +38,8 @@ namespace IEventSourcedMyBrain.App_Start
 
             bundles.Add(new StyleBundle("~/Styles/layout").Include(
                 "~/web/es/css/es.sitelayout.css",
-                "~/web/es/lib/jquery/jquery-ui-1.8.23.custom.css")
+                "~/web/es/lib/jquery/jquery-ui-1.8.23.custom.css",
+                "~/Content/Application/footer.css")
             );
 
             bundles.Add(new StyleBundle("~/Styles/bootstrap").Include(
